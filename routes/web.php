@@ -55,3 +55,48 @@ Route::get('/postcontroller/{id}/show',[PostController::class,'show']);
 Route::post('/postcontroller/{id}/edit',[PostController::class,'edit']);
 Route::put('/postcontroller/{id}/update',[PostController::class,'update']);
 Route::delete('/postcontroller/{id}/destroy',[PostController::class,'destroy']);
+
+
+Route::get("/b",function(){
+    return view("b");
+});
+
+//prefix route + group route
+Route::prefix("admin")->group(function()
+{
+    Route::get("/dashboard",function(){
+        return "dashboard";
+    });
+    Route::get("/profile",function(){
+        return "profile";
+    });
+});
+
+//domain route
+ //1. Fixed Domain
+Route::domain('admin.lvh.me')->group(function () {
+    Route::get('/admin', function () {       
+    return "Admin Panel";
+    });
+});
+ //2. Dynamic Subdomain
+Route::domain('{user}.lvh.me')->group(function () {    
+Route::get('/user/{user}', function ($user) {       
+return "Hello " . $user;
+    });
+});
+
+//URL Generation-Current URL
+Route::get('/test', function () {
+        return url()->current();
+        });
+
+ //Full URL (with query)
+Route::get('/testurl/{id}', function () {
+        return url()->full();
+        });
+
+// 3. Using Request
+Route::get('/testrequest', function () {
+        return request()->url();
+        });
